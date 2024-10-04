@@ -18,8 +18,8 @@ export default function App() {
 
   // ✨ Research `useNavigate` in React Router v.6
   const navigate = useNavigate()
-  const redirectToLogin = () => { /* ✨ implement */ }
-  const redirectToArticles = () => { /* ✨ implement */ }
+  const redirectToLogin = () => { navigate('/')}
+  const redirectToArticles = () => { navigate('/articles') }
 
   const logout = () => {
     // ✨ implement
@@ -27,16 +27,41 @@ export default function App() {
     // and a message saying "Goodbye!" should be set in its proper state.
     // In any case, we should redirect the browser back to the login screen,
     // using the helper above.
+    localStorage.removeItem('token')
+    redirectToLogin()
+    setMessage("Goodbye!")
+    
   }
 
-  const login = ({ username, password }) => {
-    // ✨ implement
-    // We should flush the message state, turn on the spinner
-    // and launch a request to the proper endpoint.
-    // On success, we should set the token to local storage in a 'token' key,
-    // put the server success message in its proper state, and redirect
-    // to the Articles screen. Don't forget to turn off the spinner!
-  }
+  const login = async ({ username, password }) => {
+    setMessage('')        
+    setSpinnerOn(true)        
+  
+    try {
+      const response = await fetch(loginUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),  
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {   
+        localStorage.setItem('token', data.token); 
+        setMessage(`Welcome, ${username}!`);        
+        redirectToArticles();                       
+
+     
+      }
+    } catch (error) {
+      setMessage('An error occurred. Please try again.');  
+    } 
+      setSpinnerOn(false);   
+    
+  };
+
 
   const getArticles = () => {
     // ✨ implement
@@ -78,7 +103,7 @@ export default function App() {
           <NavLink id="articlesScreen" to="/articles">Articles</NavLink>
         </nav>
         <Routes>
-          <Route path="/" element={<LoginForm />} />
+          <Route path="/" element={<LoginForm login={login}/>} />
           <Route path="articles" element={
             <>
               <ArticleForm />
