@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import PT from 'prop-types'
 
-export default function Articles({getArticles, postArticle, updateArticle, deleteArticle, articles, setArticles, currentArticleId, setCurrentArticleId}) {
+export default function Articles({getArticles, updateArticle, deleteArticle, articles, setArticles, currentArticleId, setCurrentArticleId}) {
   // ✨ where are my props? Destructure them here
 
   // ✨ implement conditional logic: if no token exists
@@ -15,10 +15,16 @@ export default function Articles({getArticles, postArticle, updateArticle, delet
 
 
   useEffect(() => {
+    
     getArticles(); 
   }, []); 
 
-  
+  const handleEdit = (articleId) => {
+    console.log("Editing Article ID:", articleId)
+    setCurrentArticleId(articleId);  // This sets the currentArticleId
+};
+console.log("Current Article ID:", currentArticleId);
+console.log("Current Article:", articles.find(article => article.id === currentArticleId));
   return (
     // ✨ fix the JSX: replace `Function.prototype` with actual functions
     // and use the articles prop to generate articles
@@ -36,7 +42,7 @@ export default function Articles({getArticles, postArticle, updateArticle, delet
                   <p>Topic: {art.topic}</p>
                 </div>
                 <div>
-                <button id={art.article_id} onClick={() => updateArticle(art.article_id)}>Edit</button>
+                <button id={art.article_id} onClick={() =>{ console.log("Setting currentArticleId to:", art.article_id);setCurrentArticleId(art.article_id)}}>Edit</button>
                 <button id={art.article_id} onClick={() => deleteArticle(art.article_id)}>Delete</button>
                 </div>
               </div>

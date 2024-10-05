@@ -10,7 +10,7 @@ const initialFormValues = { title: '', text: '', topic: '' }
 
   useEffect(() => {
 
-
+    console.log("Article Selected:", article)
     if(article) {
       setValues({
         title: article.title,

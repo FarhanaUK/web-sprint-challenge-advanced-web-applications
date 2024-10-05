@@ -52,6 +52,7 @@ export default function App() {
       if (response.ok) {   
         localStorage.setItem('token', data.token); 
         setMessage((data.message || `Here are your articles, ${username}!`));        
+        setCurrentArticleId(null)
         redirectToArticles();                       
 
      
@@ -131,12 +132,9 @@ export default function App() {
     // to inspect the response from the server.
   }
 
-  const updateArticle = async ({ article_id, article }) => {
-    // ✨ implement
-    // You got this!
+  const updateArticle = async (article_id, article ) => {
     setMessage("");
     setSpinnerOn(true);
-
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
@@ -152,7 +150,7 @@ export default function App() {
           },
         }
       );
-      setArticles(response.data.articles);
+     
       await getArticles();
       setMessage(response.data.message);
     } catch (error) {
@@ -211,7 +209,7 @@ export default function App() {
             getArticles={getArticles}
             postArticle={postArticle}
             updateArticle={updateArticle}
-            article={articles.find(article => article.id === currentArticleId)}
+            article={articles.find(article => article.article_id === currentArticleId)}
             currentArticleId={currentArticleId}
             setCurrentArticleId={setCurrentArticleId}
 
