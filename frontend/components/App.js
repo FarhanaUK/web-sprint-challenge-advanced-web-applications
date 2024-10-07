@@ -165,30 +165,28 @@ export default function App() {
     }
   };
 
-  const deleteArticle = async article_id => {
+  const deleteArticle = async (article_id) => {
     setMessage("");
     setSpinnerOn(true);
     try {
       const token = localStorage.getItem("token");
-      console.log('Deleting Article ID:', article_id);
-      const response = await axios.delete(`${articlesUrl}/${article_id}`, 
-        {headers: {
+      console.log("Deleting Article ID:", article_id);
+      const response = await axios.delete(`${articlesUrl}/${article_id}`, {
+        headers: {
           Authorization: token,
         },
       });
-  
-        setMessage(response.data.message)
-        await getArticles()
-    } 
-    
-    catch (error) {
-      if (error?.response.status == 401) 
-        redirectToLogin();
+       await getArticles();
+      setMessage(response.data.message);
+     
+    } catch (error) {
+      if (error?.response.status == 401) redirectToLogin();
     } finally {
       setSpinnerOn(false);
     }
-   
-  }
+  };
+
+  
   return (
     // ✨ fix the JSX: `Spinner`, `Message`, `LoginForm`, `ArticleForm` and `Articles` expect props ❗
     <>

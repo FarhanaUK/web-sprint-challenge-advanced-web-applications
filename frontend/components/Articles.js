@@ -19,12 +19,12 @@ export default function Articles({getArticles, updateArticle, deleteArticle, art
     getArticles(); 
   }, []); 
 
-  const handleEdit = (articleId) => {
-    console.log("Editing Article ID:", articleId)
-    setCurrentArticleId(articleId);  // This sets the currentArticleId
-};
+//   const handleEdit = (articleId) => {
+//     console.log("Editing Article ID:", articleId)
+//     setCurrentArticleId(articleId);  // This sets the currentArticleId
+// };
 console.log("Current Article ID:", currentArticleId);
-console.log("Current Article:", articles.find(article => article.id === currentArticleId));
+console.log("Current Article:", articles.find(article => article.article_id === currentArticleId));
   return (
     // ✨ fix the JSX: replace `Function.prototype` with actual functions
     // and use the articles prop to generate articles
